@@ -4,7 +4,32 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hu.ajprods</groupId>
+    <name>Java Mediator</name>
+    <description>A simple mediator</description>
+    <url>https://github.com/bandii/mediator</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/bandii/mediator/blob/main/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>bandii</id>
+            <name>András Jenei</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git:https://github.com/bandii/mediator.git</connection>
+        <developerConnection>scm:git:ssh:https://github.com/bandii/mediator.git</developerConnection>
+        <url>https://github.com/bandii/mediator</url>
+    </scm>
+
+    <groupId>io.github.bandii</groupId>
     <artifactId>mediator</artifactId>
     <version>1.0.0</version>
 
