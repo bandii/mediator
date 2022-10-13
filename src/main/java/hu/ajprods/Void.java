@@ -2,8 +2,7 @@ package hu.ajprods;
 
 /**
  * An empty object to be used in the framework.
- *
- * @apiNote Use the VOID static member
+ * Use the VOID static member
  */
 public final class Void {
     /**
