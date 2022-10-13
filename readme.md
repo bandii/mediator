@@ -1,3 +1,8 @@
+<p align="right">
+    <img src=".github/badges/jacoco.svg" alt="Coverage"/>
+    <img src=".github/badges/branches.svg" alt="Branches"/>
+</p>
+
 # TODO: 
 * remove warnings
 * add sample with spring boot
