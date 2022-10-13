@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.LinkedList;
 import java.util.Set;
 
-public class CommandMiddlewareTests {
+public class CommandMiddlewareTest {
 
     private Mediator testee;
 

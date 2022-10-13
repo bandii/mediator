@@ -9,7 +9,7 @@ import java.time.Duration;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-public class CommandTests {
+public class CommandTest {
 
     private Mediator testee;
 

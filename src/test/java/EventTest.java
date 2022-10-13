@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.util.Set;
 
-public class EventTests {
+public class EventTest {
 
     private Mediator testee;
 
