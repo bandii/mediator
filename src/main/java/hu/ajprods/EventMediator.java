@@ -27,7 +27,8 @@ public class EventMediator
             throw new NullPointerException("Cannot register no handler");
         }
 
-        var eventTypeName = ((ParameterizedType) handler.getClass().getGenericInterfaces()[0])
+        var eventTypeName = ((ParameterizedType) handler.getClass()
+                                                        .getGenericInterfaces()[0])
                 .getActualTypeArguments()[0]
                 .getTypeName();
 
@@ -47,8 +48,7 @@ public class EventMediator
     }
 
     @Override
-    public <TEvent extends IEvent> void notify(TEvent event)
-        throws MediatorException {
+    public <TEvent extends IEvent> void notify(TEvent event) {
         if (event == null) {
             throw new NullPointerException("Cannot process null event!");
         }
@@ -61,13 +61,6 @@ public class EventMediator
             return;
         }
 
-        handlers.forEach(handler -> {
-            try {
-                handler.handle(event);
-            }
-            catch (Throwable e) {
-                throw new MediatorException(e);
-            }
-        });
+        handlers.forEach(handler -> handler.handle(event));
     }
 }

@@ -3,9 +3,81 @@
     <img src=".github/badges/branches.svg" alt="Branches"/>
 </p>
 
-# TODO: 
-* remove warnings
-* add sample with spring boot
-* add install with maven sample
-* extend readme with some details and purposes
-* publish package to maven
+# Motivation
+As a newby in the java world it was a surprise for me I could not find a pure and simple solution for decoupling 
+my modules in my projects. Therefore, as a learning project, 
+I have started this [mediator](https://en.wikipedia.org/wiki/Mediator_pattern) implementation and shared it with You.
+
+In case you find a bug or have some ideas how to improve the project, feel free opening pull requests, 
+but please keep in mind, the goal of this project is to keep it simple and pure, without many third party dependencies.
+
+For examples about how its commands and events work please check or debug the automated tests. I have used fakes everywhere, so it should be comfy :)
+
+# Installation
+
+Maven
+
+```xml
+
+<dependency>
+    <groupId>io.github.bandii</groupId>
+    <artifactId>mediator</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+Gradle
+
+```
+dependencies {
+    compile 'io.github.bandii:mediator:1.0.0'
+}
+```
+
+# Mediator registration in Spring
+
+```java
+
+@Configuration
+class MediatorConfiguration {
+
+    @Bean
+    Pipeline pipeline(ObjectProvider<ICommandHandler> commandHandlers,
+                      ObjectProvider<IEventHandler> notificationHandlers,
+                      LoggingMiddleware loggingMiddleware,
+                      ErrorHandlingMiddleware errorHandlingMiddleware) {
+        var ret = new Mediator();
+        
+        // Register command handlers
+        ret.commandHandler()
+           .addHandlers(commandHandlers.stream()
+                                       .collect(Collectors.toSet()));
+
+        // Register notification handlers
+        ret.eventHandler()
+           .addHandlers(notificationHandlers.stream()
+                                            .collect(Collectors.toSet()));
+
+        // Order matters!
+        ret.addMiddleware(loggingMiddleware);
+        ret.addMiddleware(errorHandlingMiddleware);
+
+        return ret;
+    }
+    
+    @Bean
+    LoggingMiddleware loggingMiddleware() {
+        return new LoggingMiddleware();
+    }
+    
+    @Bean
+    ErrorHandlingMiddleware errorHandlingMiddleware() {
+        return new ErrorHandlingMiddleware();
+    }
+}
+```
+
+# // TODO:
+- [ ] Finalize the CD to Maven Central
+- [ ] A class could have multiple Command-, or EventHandlers
+- [ ] Do some performance measurements and share them

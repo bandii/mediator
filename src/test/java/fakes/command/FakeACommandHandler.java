@@ -12,7 +12,7 @@ public class FakeACommandHandler
 
     @Override
     public String handle(FakeACommand command) {
-        System.out.println(command.message + " got handled");
+        System.out.println(command.message + " got handled by FakeACommandHandler");
 
         commandsHandled.add(command);
 

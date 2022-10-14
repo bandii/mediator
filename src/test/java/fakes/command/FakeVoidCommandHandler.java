@@ -13,7 +13,7 @@ public class FakeVoidCommandHandler
 
     @Override
     public Void handle(FakeVoidCommand command) {
-        System.out.println(command.message + " got handled in Fakes.FakeCommandHandler");
+        System.out.println(command.message + " got handled by FakeVoidCommandHandler");
 
         commandsHandled.add(command);
 

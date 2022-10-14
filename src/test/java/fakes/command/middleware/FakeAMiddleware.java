@@ -14,14 +14,14 @@ public class FakeAMiddleware
 
     @Override
     public String handle(FakeACommand command, Supplier<String> next) {
-        System.out.println("*** Begin" + command.message);
+        System.out.println("*** Begin - FakeAMiddleware" + command.message);
 
         commandsHandled.add(command);
         command.middlewaresVisited.add(this);
 
         String ret = next.get();
 
-        System.out.println("*** END" + command.message);
+        System.out.println("*** END - FakeAMiddleware" + command.message);
 
         return ret;
     }

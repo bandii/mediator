@@ -14,7 +14,7 @@ public class FakeFaultyMiddleware
 
     @Override
     public String handle(FakeACommand command, Supplier<String> next) {
-        System.out.println("*** Begin" + command.message);
+        System.out.println("*** Begin - FakeFaultyMiddleware" + command.message);
 
         command.middlewaresVisited.add(this);
         commandsHandled.add(command);

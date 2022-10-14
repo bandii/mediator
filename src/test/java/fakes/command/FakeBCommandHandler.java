@@ -12,7 +12,7 @@ public class FakeBCommandHandler
 
     @Override
     public String handle(FakeBCommand command) {
-        System.out.println(command.message + " got handled");
+        System.out.println(command.message + " got handled by FakeBCommandHandler");
 
         commandsHandled.add(command);
 

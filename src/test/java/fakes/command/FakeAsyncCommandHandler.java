@@ -25,7 +25,7 @@ public class FakeAsyncCommandHandler
     public Future<String> handle(FakeAsyncCommand command) {
         startTime = Instant.now();
 
-        System.out.println(command.message + " WILL BE handled in Fakes.fakes.command.FakeACommandHandler");
+        System.out.println(command.message + " WILL BE handled by FakeAsyncCommandHandler");
 
         CompletableFuture<String> completableFuture = new CompletableFuture<>();
 
@@ -36,7 +36,7 @@ public class FakeAsyncCommandHandler
             completableFuture.complete(command.message + " got handled");
             endTime = Instant.now();
 
-            System.out.println(command.message + " got handled");
+            System.out.println(command.message + " got handled by FakeAsyncCommandHandler");
             return null;
         });
 

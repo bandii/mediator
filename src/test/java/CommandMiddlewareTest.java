@@ -1,6 +1,7 @@
 import fakes.command.*;
 import fakes.command.middleware.FakeAMiddleware;
 import fakes.command.middleware.FakeBMiddleware;
+import fakes.command.middleware.FakeFaultyMiddleware;
 import fakes.command.middleware.FakeVoidMiddleware;
 import hu.ajprods.Void;
 import hu.ajprods.*;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CommandMiddlewareTest {
 
@@ -365,6 +367,43 @@ public class CommandMiddlewareTest {
 
         Assertions.assertSame(1,
                               commandAHandler.commandsHandled.size());
+    }
+
+    @Test
+    public void singleCommand_FaultyMiddleware_OK()
+            throws NoHandlerFoundException {
+        // Given
+        var middleware = new FakeFaultyMiddleware();
+        testee.commandHandler()
+              .addMiddleware(middleware);
+
+        var commandHandler = new FakeACommandHandler();
+        testee.commandHandler()
+              .addHandler(commandHandler);
+
+        var command = new FakeACommand("singleCommand_OK");
+
+        AtomicReference<String> result = new AtomicReference<>("");
+
+        // When
+        Assertions.assertThrows(RuntimeException.class,
+                                () -> result.set(testee.handle(command)),
+                                "test");
+
+
+        // Then
+        Assertions.assertSame(1,
+                              middleware.commandsHandled.size());
+        Assertions.assertSame(command,
+                              middleware.commandsHandled.get(0));
+
+        Assertions.assertSame(1,
+                              command.middlewaresVisited.size());
+        Assertions.assertSame(middleware,
+                              command.middlewaresVisited.get(0));
+
+        Assertions.assertEquals("",
+                                result.get());
     }
 }
 

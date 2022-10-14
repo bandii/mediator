@@ -43,8 +43,7 @@ public class CommandMediator
 
     @Override
     public <TCommand extends ICommand<TResult>, TResult> TResult handle(TCommand command)
-            throws NoHandlerFoundException,
-                   MediatorException {
+            throws NoHandlerFoundException {
         if (command == null) {
             throw new NullPointerException("Cannot process null command!");
         }
@@ -63,14 +62,7 @@ public class CommandMediator
 
         return (TResult) applyMiddlewares(command,
                                           0,
-                                          () -> {
-                                              try {
-                                                  return handler.handle(command);
-                                              }
-                                              catch (Throwable e) {
-                                                  throw new MediatorException(e);
-                                              }
-                                          });
+                                          () -> handler.handle(command));
     }
 
     private final Map<String, List<ICommandMiddleware>> middlewares = new HashMap<>();
@@ -114,8 +106,7 @@ public class CommandMediator
 
     protected <TCommand extends ICommand<?>> Object applyMiddlewares(final TCommand command,
                                                                      final int index,
-                                                                     final Supplier<Object> handle)
-            throws MediatorException {
+                                                                     final Supplier<Object> handle) {
         List<ICommandMiddleware> middlewares = this.middlewares.get(command.getClass()
                                                                            .getName());
         if (middlewares == null) {
@@ -133,14 +124,9 @@ public class CommandMediator
                                          return handle.get();
                                      }
                                      else {
-                                         try {
-                                             return applyMiddlewares(command,
-                                                                     index + 1,
-                                                                     handle);
-                                         }
-                                         catch (Throwable e) {
-                                             throw new MediatorException(e);
-                                         }
+                                         return applyMiddlewares(command,
+                                                                 index + 1,
+                                                                 handle);
                                      }
                                  });
     }

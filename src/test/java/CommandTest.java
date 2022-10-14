@@ -111,8 +111,7 @@ public class CommandTest {
 
     @Test
     public void singleVoidCommand_OK()
-            throws NoHandlerFoundException,
-                   MediatorException {
+            throws NoHandlerFoundException {
         // Given
         var commandHandler = new FakeVoidCommandHandler();
         testee.commandHandler()

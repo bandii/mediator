@@ -5,5 +5,5 @@ package hu.ajprods;
  */
 public interface ICommandDispatcher {
     <TCommand extends ICommand<TResult>, TResult> TResult handle(TCommand command)
-            throws NoHandlerFoundException, MediatorException;
+            throws NoHandlerFoundException;
 }

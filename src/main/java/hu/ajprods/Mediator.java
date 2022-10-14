@@ -29,14 +29,12 @@ public class Mediator
 
     @Override
     public <TCommand extends ICommand<TResult>, TResult> TResult handle(TCommand command)
-            throws NoHandlerFoundException,
-                   MediatorException {
+            throws NoHandlerFoundException {
         return Command.handle(command);
     }
 
     @Override
-    public <TEvent extends IEvent> void notify(TEvent event)
-            throws MediatorException {
+    public <TEvent extends IEvent> void notify(TEvent event) {
         Event.notify(event);
     }
 }

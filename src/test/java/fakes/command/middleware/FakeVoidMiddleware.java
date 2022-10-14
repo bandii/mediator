@@ -15,14 +15,14 @@ public class FakeVoidMiddleware
 
     @Override
     public Void handle(FakeVoidCommand command, Supplier<Void> next) {
-        System.out.println("*** Begin" + command.message);
+        System.out.println("*** Begin - FakeFaultyMiddleware" + command.message);
 
         commandsHandled.add(command);
         command.middlewaresVisited.add(this);
 
         Void ret = next.get();
 
-        System.out.println("*** END" + command.message);
+        System.out.println("*** END - FakeFaultyMiddleware" + command.message);
 
         return ret;
     }
