@@ -22,7 +22,7 @@ Maven
 <dependency>
     <groupId>io.github.bandii</groupId>
     <artifactId>mediator</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ Gradle
 
 ```
 dependencies {
-    compile 'io.github.bandii:mediator:1.0.0'
+    compile 'io.github.bandii:mediator:1.0.1'
 }
 ```
 
