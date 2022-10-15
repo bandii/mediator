@@ -10,22 +10,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set up Maven Central Repository
-        uses: actions/setup-java@v3
+      
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.5.0
         with:
-          java-version: '11'
-          distribution: 'temurin'
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-          gpg-private-key: MAVEN_GPG_PK
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          java-version: 11
+          java-distribution: 'temurin'
+          settings-servers: [{"id": "ossrh", "username": "${{ secrets.OSSRH_USERNAME }}", "password": "${{ secrets.OSSRH_TOKEN }}"}]
 
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PK: ${{ secrets.MAVEN_GPG_PK }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          SIGN_KEY_ID: ${{ secrets.MAVEN_GPG_ID }}
+          SIGN_KEY: ${{ secrets.MAVEN_GPG_PK }}
+          SIGN_KEY_PASS: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
