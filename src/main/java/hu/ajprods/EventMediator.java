@@ -27,21 +27,25 @@ public class EventMediator
             throw new NullPointerException("Cannot register no handler");
         }
 
-        var eventTypeName = ((ParameterizedType) handler.getClass()
-                                                        .getGenericInterfaces()[0])
-                .getActualTypeArguments()[0]
-                .getTypeName();
+        var interfaces = Reflection.getInterfaces(handler.getClass(),
+                                                  IEventHandler.class);
 
-        var handlers = eventHandlers.get(eventTypeName);
-        if (handlers == null) {
-            var newSet = new HashSet<IEventHandler<IEvent>>(1);
-            newSet.add((IEventHandler<IEvent>) handler);
+        for (ParameterizedType anInterface : interfaces) {
+            var eventTypeName = anInterface
+                    .getActualTypeArguments()[0] // It is strict, driven by this project
+                                                 .getTypeName();
 
-            eventHandlers.put(eventTypeName,
-                              newSet);
-        }
-        else {
-            handlers.add((IEventHandler<IEvent>) handler);
+            var handlers = eventHandlers.get(eventTypeName);
+            if (handlers == null) {
+                var newSet = new HashSet<IEventHandler<IEvent>>(1);
+                newSet.add((IEventHandler<IEvent>) handler);
+
+                eventHandlers.put(eventTypeName,
+                                  newSet);
+            }
+            else {
+                handlers.add((IEventHandler<IEvent>) handler);
+            }
         }
 
         return this;

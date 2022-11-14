@@ -227,5 +227,27 @@ public class CommandTest {
         Assertions.assertSame(0,
                               commandBHandler.commandsHandled.size());
     }
+
+    @Test
+    public void singleCommand_complexHandler_OK()
+            throws NoHandlerFoundException {
+        // Given
+        var commandHandler = new FakeMultiImplCommandHandler();
+        testee.commandHandler()
+              .addHandler(commandHandler);
+
+        var command = new FakeACommand("singleCommand_OK");
+
+        // When
+        var result = testee.handle(command);
+
+        // Then
+        Assertions.assertEquals(command.message + " got handled",
+                                result);
+        Assertions.assertSame(1,
+                              commandHandler.commandsHandled.size());
+        Assertions.assertSame(command,
+                              commandHandler.commandsHandled.get(0));
+    }
 }
 

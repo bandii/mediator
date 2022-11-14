@@ -26,17 +26,21 @@ public class CommandMediator
             throw new NullPointerException("Cannot register null handler");
         }
 
-        var commandTypeName = ((ParameterizedType) commandHandler.getClass()
-                                                                 .getGenericInterfaces()[0])
-                .getActualTypeArguments()[0]
-                .getTypeName();
+        var interfaces = Reflection.getInterfaces(commandHandler.getClass(),
+                                                  ICommandHandler.class);
 
-        if (commandHandlers.containsKey(commandTypeName)) {
-            throw new UnsupportedOperationException("One command can have only one handler!");
+        for (ParameterizedType anInterface : interfaces) {
+            var commandTypeName = anInterface
+                    .getActualTypeArguments()[0] // It is strict, driven by this project
+                                                 .getTypeName();
+
+            if (commandHandlers.containsKey(commandTypeName)) {
+                throw new UnsupportedOperationException("One command can have only one handler!");
+            }
+
+            commandHandlers.put(commandTypeName,
+                                (ICommandHandler<ICommand<?>, ?>) commandHandler);
         }
-
-        commandHandlers.put(commandTypeName,
-                            (ICommandHandler<ICommand<?>, ?>) commandHandler);
 
         return this;
     }
@@ -84,21 +88,26 @@ public class CommandMediator
             throw new NullPointerException("Cannot register no middleware");
         }
 
-        var commandTypeName = ((ParameterizedType) middleware.getClass()
-                                                             .getGenericInterfaces()[0])
-                .getActualTypeArguments()[0]
-                .getTypeName();
+        var interfaces = Reflection.getInterfaces(middleware.getClass(),
+                                                  ICommandMiddleware.class);
 
-        var handlers = middlewares.get(commandTypeName);
-        if (handlers == null) {
-            var newSet = new LinkedList<ICommandMiddleware>();
-            newSet.add(middleware);
+        for (ParameterizedType anInterface : interfaces) {
+            var commandTypeName = anInterface
+                    .getActualTypeArguments()[0] // It is strict, driven by this project
+                                                 .getTypeName();
 
-            middlewares.put(commandTypeName,
-                            newSet);
-        }
-        else {
-            handlers.add(middleware);
+            var handlers = middlewares.get(commandTypeName);
+            if (handlers == null) {
+                var newSet = new LinkedList<ICommandMiddleware>();
+                newSet.add(middleware);
+
+                middlewares.put(commandTypeName,
+                                newSet);
+            }
+            else {
+                handlers.add(middleware);
+            }
+
         }
 
         return this;

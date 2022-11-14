@@ -191,5 +191,24 @@ public class EventTest {
         Assertions.assertSame(0,
                               eventBHandler.eventsHandled.size());
     }
+
+    @Test
+    public void singleEvent_complexHandler_OK() {
+        // Given
+        var eventHandler = new FakeAEventHandler();
+        testee.eventHandler()
+              .addHandler(eventHandler);
+
+        var event = new FakeAEvent("singleEvent_OK");
+
+        // When
+        testee.notify(event);
+
+        // Then
+        Assertions.assertSame(1,
+                              eventHandler.eventsHandled.size());
+        Assertions.assertSame(event,
+                              eventHandler.eventsHandled.get(0));
+    }
 }
 

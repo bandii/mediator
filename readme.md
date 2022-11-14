@@ -22,7 +22,7 @@ Maven
 <dependency>
     <groupId>io.github.bandii</groupId>
     <artifactId>mediator</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ Gradle
 
 ```
 dependencies {
-    compile 'io.github.bandii:mediator:1.0.1'
+    compile 'io.github.bandii:mediator:1.0.2'
 }
 ```
 
@@ -78,6 +78,7 @@ class MediatorConfiguration {
 ```
 
 # // TODO:
-- [ ] Finalize the CD to Maven Central
-- [ ] A class could have multiple Command-, or EventHandlers
-- [ ] Do some performance measurements and share them
+- [x] Finalize the CD to Maven Central
+- [x] A class could have multiple implementations next to the I{xy}Handlers and IMiddlewares
+- [ ] Add logging
+- [ ] Add reflection-driven addHandler methods

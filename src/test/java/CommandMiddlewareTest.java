@@ -1,8 +1,5 @@
 import fakes.command.*;
-import fakes.command.middleware.FakeAMiddleware;
-import fakes.command.middleware.FakeBMiddleware;
-import fakes.command.middleware.FakeFaultyMiddleware;
-import fakes.command.middleware.FakeVoidMiddleware;
+import fakes.command.middleware.*;
 import hu.ajprods.Void;
 import hu.ajprods.*;
 import org.junit.jupiter.api.Assertions;
@@ -404,6 +401,42 @@ public class CommandMiddlewareTest {
 
         Assertions.assertEquals("",
                                 result.get());
+    }
+
+    @Test
+    public void singleCommand_complexMiddleware_OK()
+            throws NoHandlerFoundException {
+        // Given
+        var middleware = new FakeMultiImplMiddleware();
+        testee.commandHandler()
+              .addMiddleware(middleware);
+
+        var commandHandler = new FakeACommandHandler();
+        testee.commandHandler()
+              .addHandler(commandHandler);
+
+        var command = new FakeACommand("singleCommand_OK");
+
+        // When
+        var result = testee.handle(command);
+
+        // Then
+        Assertions.assertSame(1,
+                              middleware.commandsHandled.size());
+        Assertions.assertSame(command,
+                              middleware.commandsHandled.get(0));
+
+        Assertions.assertSame(1,
+                              command.middlewaresVisited.size());
+        Assertions.assertSame(middleware,
+                              command.middlewaresVisited.get(0));
+
+        Assertions.assertEquals(command.message + " got handled",
+                                result);
+        Assertions.assertSame(1,
+                              commandHandler.commandsHandled.size());
+        Assertions.assertSame(command,
+                              commandHandler.commandsHandled.get(0));
     }
 }
 
