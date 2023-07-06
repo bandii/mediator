@@ -4,7 +4,7 @@
 </p>
 
 # Motivation
-As a newby in the java world it was a surprise for me I could not find a pure and simple solution for decoupling 
+As a newby in the java world it was a surprise for me, I could not find a pure and simple solution for decoupling 
 my modules in my projects. Therefore, as a learning project, 
 I have started this [mediator](https://en.wikipedia.org/wiki/Mediator_pattern) implementation and shared it with You.
 
@@ -22,7 +22,7 @@ Maven
 <dependency>
     <groupId>io.github.bandii</groupId>
     <artifactId>mediator</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ Gradle
 
 ```
 dependencies {
-    compile 'io.github.bandii:mediator:1.0.2'
+    compile 'io.github.bandii:mediator:1.0.3'
 }
 ```
 
@@ -42,7 +42,7 @@ dependencies {
 class MediatorConfiguration {
 
     @Bean
-    Pipeline pipeline(ObjectProvider<ICommandHandler> commandHandlers,
+    Mediator pipeline(ObjectProvider<ICommandHandler> commandHandlers,
                       ObjectProvider<IEventHandler> notificationHandlers,
                       LoggingMiddleware loggingMiddleware,
                       ErrorHandlingMiddleware errorHandlingMiddleware) {
@@ -77,8 +77,5 @@ class MediatorConfiguration {
 }
 ```
 
-# // TODO:
-- [x] Finalize the CD to Maven Central
-- [x] A class could have multiple implementations next to the I{xy}Handlers and IMiddlewares
-- [ ] Add logging
-- [ ] Add reflection-driven addHandler methods
+## Notes
+If you have any idea how to improve this lib further, do not hesitate opening a ticket :)
